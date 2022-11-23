@@ -18,18 +18,23 @@ int main() {
     printf("Enter h (h > 0) -> ");
     scanf("%f", &h);
 
-    printf("\ndo while \nx        f(x) \n------------------\n");
-    float x = 0;
-    do {
-        float f = func(x);
-        printf("%.5f  %.5f \n", x, f);
-        x += h;
-    } while(x <= 2 + h / 2);
+    int I = 2 / h + h / 2;
+    printf("I = %i \n", I);
 
-    printf("\nfor \nx        f(x) \n------------------\n");
-    for (float x = 0; x <= 2 + h / 2; x += h) {
-        float f = func(x);
-        printf("%.5f  %.5f \n", x, f);
-    }
+    printf("\ndo while \nx        f(x) \n------------------\n");
+    int i = 0;
+    do {
+        float f = func(i*h);
+        printf("%.5f  %.5f \n", i*h, f);
+        i += 1;
+    } while(i <= I);
+
+    // printf("\nfor \nx        f(x) \n------------------\n");
+    // for (int i = 0; i <= I; i += 1) {
+    //     float f = func(i*h);
+    //     printf("%.5f  %.5f \n", i*h, f);
+    // }
+
+    // printf("I = %f \n", I);
     return 0;
 }

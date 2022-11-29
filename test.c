@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 // char dna_strand(const char *dna)
 // {
@@ -32,16 +33,44 @@
 //     return new_dna;
 // }
 
-int find_odd(size_t length, const int array[length])
-{
-//   for (int i = 0; i < lenght; i+=1) {
-//     printf("%d", array[i]);
-//   }
-  print("%d", length);
-  return 0;
+// int find_odd(size_t length, const int array[length])
+// {
+// //   for (int i = 0; i < lenght; i+=1) {
+// //     printf("%d", array[i]);
+// //   }
+//   print("%d", length);
+//   return 0;
+// }
+
+int is_armstrong_number(int x) {
+    int x_c = x;
+    int c = 0;
+    while (x_c > 0) {
+        x_c /= 10;
+        c += 1;
+    }
+    printf("c = %i \n", c);
+    x_c = x;
+    int a = 0;
+    while (x_c > 0) {
+        printf("a += %i \n", (int)pow(x_c % 10, c));
+        a += (int)pow(x_c % 10, c);
+        x_c /= 10;
+    }
+
+    printf("x = %i \n", x);
+    printf("a = %i \n", a);
+
+    if (x == a) {
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 int main() {
-    find_odd(5, ((const int[]){20, 1, -1, 2, -2, 3, 3, 5, 5, 1, 2, 4, 20, 4, -1, -2, 5}));
-    // dna_strand("ATTGC");
+    int n;
+    printf("Enter n -> ");
+    scanf("%i", &n);
+    printf("%i", is_armstrong_number(n));
 }

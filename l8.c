@@ -50,5 +50,6 @@ int main()
             break;
         }
     }
+    printf("\n");
     return 0;
 }

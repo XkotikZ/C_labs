@@ -2,6 +2,10 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <ctype.h>
+
+#include <termios.h>
+#include <unistd.h>
 
 
 struct company_computers{
@@ -9,8 +13,10 @@ struct company_computers{
     char size_of_RAM[15]; // объём оперативной памяти
     char size_of_hard_drive[15]; // объём жёсткого диска
     char gpu[25]; // видеоадаптер
-    int price; // стоимость
-    int year; // год закупки
+    // int price; // стоимость
+    // int year; // год закупки
+    char price[20]; // стоимость
+    char year[20]; // год закупки
     char OS_version[15]; // версия обновления
 }CCs;
 
@@ -20,25 +26,27 @@ void fill(int len_fill, int len_struct, struct company_computers *database) {
     char RAM[] = "16Gb";
     char hard_drive[] = "2Tb";
     char gpu[] = "NVIDIA 3060";
-    int price = 10000;
-    int year = 2015;
-    char OS_v[] = "3.2";
+    char price[] = "100000";
+    char year[] = "2021";
+    char OS_v[] = "W10";
 
     for (int i = 0; i < len_fill; i += 1) {
-        // char i1[3] = i + 1;
-        // cpu[11] = (char)(i + 1);
-        cpu[11] = i + 1;
-        // cpu[11] = i1;
-        RAM[1] = (char)(i + 1);
-        hard_drive[0] = (char)(i + 1);
-        gpu[7] = (char)(i + 1);
+        // // char i1[3] = i + 1;
+        // // cpu[11] = (char)(i + 1);
+        // cpu[11] = i + 1;
+        // // cpu[11] = i1;
+        // RAM[1] = (char)(i + 1);
+        // hard_drive[0] = (char)(i + 1);
+        // gpu[7] = (char)(i + 1);
 
         strncpy(database[i].cpu, cpu, 25);
         strncpy(database[i].size_of_RAM, RAM, 15);
         strncpy(database[i].size_of_hard_drive, hard_drive, 15);
         strncpy(database[i].gpu, gpu, 25);
-        database[i].price = price * (i + 1);
-        database[i].year = year + i;
+        // database[i].price = price * (i + 1);
+        // database[i].year = year + i;
+        strncpy(database[i].price, price, 20);
+        strncpy(database[i].year, year, 20);
         strncpy(database[i].OS_version, OS_v, 15);
 
         // strncpy(database[i].cpu, "AMD Ryzen 5600H", 25);
@@ -50,76 +58,133 @@ void fill(int len_fill, int len_struct, struct company_computers *database) {
     }
 }
 
+
+int mygetch()
+{
+    struct termios oldt, newt;
+    int c;
+    tcgetattr(STDIN_FILENO, &oldt);
+    newt = oldt;
+    newt.c_lflag &= ~(ICANON | ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+    c = getchar();
+    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+    return c;
+}
+
+void my_gets(char *str, char *text) {
+    printf("%s", text);
+    int i = 0;
+    // char* str = (char *)malloc(sizeof(char) * max_i);
+    int c;
+    while (true) {
+        c = mygetch();
+        if (c == 10) {
+            break;
+        }
+
+        printf("%c", tolower(c));
+        str[i] = (char)c;
+        i += 1;
+
+    }
+    printf("\n");
+}
+
 int new_computer(int num_computers, struct company_computers *database) {
+    // int c = mygetch();
+    mygetch();
+
     char* cpu = (char *)malloc(sizeof(char) * 25);
-    printf("%s", "Enter cpu name: ");
-    fgets(cpu, 25, stdin);
+    // printf("%s", "Enter cpu name: ");
+    // fgets(cpu, 25, stdin);
+    my_gets(cpu, "Enter cpu name: ");
     strncpy(database[num_computers].cpu, cpu, 25);
 
     char* RAM = (char *)malloc(sizeof(char) * 15);
-    printf("%s", "Enter size of RAM: ");
-    fgets(RAM, 15, stdin);
+    // printf("%s", "Enter size of RAM: ");
+    // fgets(RAM, 15, stdin);
+    my_gets(RAM, "Enter size of RAM: ");
     strncpy(database[num_computers].size_of_RAM, RAM, 15);
 
     char* hard_drive = (char *)malloc(sizeof(char) * 15);
-    printf("%s", "Enter size of hard drive: ");
-    fgets(hard_drive, 15, stdin);
+    // printf("%s", "Enter size of hard drive: ");
+    // fgets(hard_drive, 15, stdin);
+    my_gets(hard_drive, "Enter size of hard drive: ");
     strncpy(database[num_computers].size_of_hard_drive, hard_drive, 15);
 
     char* gpu = (char *)malloc(sizeof(char) * 25);
-    printf("%s", "Enter gpu name: ");
-    fgets(gpu, 25, stdin);
+    // printf("%s", "Enter gpu name: ");
+    // fgets(gpu, 25, stdin);
+    my_gets(gpu, "Enter gpu name: ");
     strncpy(database[num_computers].gpu, gpu, 25);
 
-    printf("%s", "Enter price: ");
-    int price;
-    scanf("%i", &price);
-    database[num_computers].price = price;
+    char* price = (char *)malloc(sizeof(char) * 20);
+    // printf("%s", "Enter price: ");
+    // int price;
+    // scanf("%i", &price);
+    my_gets(price, "Enter price: ");
+    // database[num_computers].price = price;
+    strncpy(database[num_computers].price, price, 20);
 
-    printf("%s", "Enter year: ");
-    int year;
-    scanf("%i", &year);
-    database[num_computers].year = year;
+    char* year = (char *)malloc(sizeof(char) * 20);
+    // printf("%s", "Enter year: ");
+    // int year;
+    // scanf("%i", &year);
+    my_gets(year, "Enter year: ");
+    // database[num_computers].year = year;
+    strncpy(database[num_computers].year, year, 20);
 
     char* OS_v = (char *)malloc(sizeof(char) * 15);
-    printf("%s", "Enter OS version: ");
-    fgets(OS_v, 15, stdin);
+    // printf("%s", "Enter OS version: ");
+    // fgets(OS_v, 15, stdin);
+    my_gets(OS_v, "Enter OS version: ");
     strncpy(database[num_computers].OS_version, OS_v, 15);
+
+    printf("\n");
 
     num_computers += 1;
     return num_computers;
 }
 
 int del_computer(int num_del, int num_computers, struct company_computers *database) {
-    printf("del f");
+    // printf("del f");
     // for (int i = num_del; num_del < num_computers; i += 1) {
     //     database[0] = database[i+1];
     // }
     // int i;
     printf("%i-%i \n", num_del, num_computers);
-    if (num_del > num_computers) {
+    if (num_del >= num_computers) {
         return num_computers;
     }
-    for (int i = num_del; num_del <= num_computers; i += 1) {
-        if (i < num_computers) {
-            printf("%i \n", i);
-        }
+
+    for (int i = num_del; i < num_computers; i += 1) {
+        // if (i < num_computers) {
+        //     printf("%i \n", i);
+        // }
+        // printf("c%i ", i);
         strncpy(database[i].cpu, database[i+1].cpu, 25);
         strncpy(database[i].size_of_RAM, database[i+1].size_of_RAM, 15);
         strncpy(database[i].size_of_hard_drive, database[i+1].size_of_hard_drive, 15);
         strncpy(database[i].gpu, database[i+1].gpu, 25);
-        database[i].price = database[i+1].price;
-        database[i].year = database[i+1].year;
+        // database[i].price = database[i+1].price;
+        // database[i].year = database[i+1].year;
+        strncpy(database[i].price, database[i+1].price, 20);
+        strncpy(database[i].year, database[i+1].year, 20);
         strncpy(database[i].OS_version, database[i+1].OS_version, 15);
     }
 
+    printf("end");
     int i = num_computers;
+    // char n[] = "";
     strncpy(database[i+1].cpu, "", 25);
     strncpy(database[i+1].size_of_RAM, "", 15);
     strncpy(database[i+1].size_of_hard_drive, "", 15);
     strncpy(database[i+1].gpu, "", 25);
-    database[i+1].price = 0;
-    database[i+1].year = 0;
+    // database[i+1].price = 0;
+    // database[i+1].year = 0;
+    strncpy(database[i+1].price, "", 20);
+    strncpy(database[i+1].year, "", 20);
     strncpy(database[i+1].OS_version, "", 15);
 
     num_computers -= 1;
@@ -140,8 +205,10 @@ void print_data(struct company_computers data) {
     printf("RAM: %s \n", data.size_of_RAM);
     printf("HD: %s \n", data.size_of_hard_drive);
     printf("GPU: %s \n", data.gpu);
-    printf("price: %i \n", data.price);
-    printf("year: %i \n", data.year);
+    // printf("price: %i \n", data.price);
+    // printf("year: %i \n", data.year);
+    printf("price: %s \n", data.price);
+    printf("year: %s \n", data.year);
     printf("OS version: %s \n", data.OS_version);
 
     // printf("%s \n", data.cpu);
@@ -193,7 +260,7 @@ int main()
         // fgets(choise, 2, stdin);
         printf("\n");
 
-        printf("choise = %i \n", choise);
+        // printf("choise = %i \n", choise);
 
         if (choise == 0) {
             break;
@@ -202,7 +269,7 @@ int main()
         } else if (choise == 2) {
             num_computers = new_computer(num_computers, database);
         } else if (choise == 3) {
-            printf("%s", "Какой пк удалить: ");
+            printf("%s", "Какой пк удалить (0-отмена): ");
             int num_del;
             scanf("%i", &num_del);
             num_computers = del_computer(num_del-1, num_computers, database);

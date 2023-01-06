@@ -94,7 +94,7 @@ int main()
         if (c == 10) {
             break;
         }
-        // printf("", c);
+
         printf("%c", tolower(c));
         str[i] = (char)c;
         i += 1;

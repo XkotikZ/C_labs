@@ -7,9 +7,6 @@
 #include <termios.h>
 #include <unistd.h>
 
-git config --global user.email ShikEgorKotik@yandex.ru
-git config --global user.name XkotikZ
-
 struct company_computers{
     char cpu[25]; // процессор
     char size_of_RAM[15]; // объём оперативной памяти

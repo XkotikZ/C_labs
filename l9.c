@@ -31,13 +31,13 @@ int max_len(char *p, char *delim) {
             max_l = m;
         }
     }
-
+    // printf("m=%i \n", max_l);
     return max_l;
 }
 
 int max_counter(int max_l, char *p, char *delim) {
-    int array_len_counter[max_l];
-    for (int i = 0; i < max_l; i += 1)
+    int array_len_counter[max_l+1];
+    for (int i = 0; i < max_l+1; i += 1)
         array_len_counter[i] = 0;
 
     int l;
@@ -50,19 +50,19 @@ int max_counter(int max_l, char *p, char *delim) {
         array_len_counter[l] += 1;
     }
 
-    // for (int i = 0; i < max_l; i += 1) {
+    // for (int i = 0; i < max_l+1; i += 1) {
     //     printf("%i-%i \n", i, array_len_counter[i]);
     // }
 
     int max_count = 0;
     int max_count_num = 0;
-    for (int i = 0; i < max_l; i += 1) {
+    for (int i = 0; i < max_l+1; i += 1) {
         if (max_count < array_len_counter[i]) {
             max_count = array_len_counter[i];
-            max_count_num = i + 1;
+            max_count_num = i;
         }
     }
-    return max_count_num-1;
+    return max_count_num;
 }
 
 void print_str(int max_count, char *p, char *delim) {
@@ -110,7 +110,8 @@ int main()
         // printf("%i | ", c);
     }
 
-    str = strtok(str, ",\n");
+    printf("\n");
+    // str = strtok(str, ",\n");
 
     int str_len = i;
     // int str_len = strlen(str);

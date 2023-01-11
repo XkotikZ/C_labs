@@ -7,6 +7,8 @@
 #include <termios.h>
 #include <unistd.h>
 
+git config --global user.email ShikEgorKotik@yandex.ru
+git config --global user.name XkotikZ
 
 struct company_computers{
     char cpu[25]; // процессор
@@ -255,30 +257,36 @@ int main()
     while (true) {
         printf("%s", menu);
 
-        int choise;
-        scanf("%i", &choise);
-        // fgets(choise, 2, stdin);
-        printf("\n");
+        // int choise;
+        // scanf("%i", &choise);
+        // printf("\n");
+
+
+        char* choise = (char *)malloc(sizeof(char) * 1);
+        my_gets(choise, "");
+
+        if (choise[0] == '0' || choise[0] == '1' || choise[0] == '2' || choise[0] == '3' || choise[0] == '4') {
 
         // printf("choise = %i \n", choise);
 
-        if (choise == 0) {
+        if (choise[0] == '0') {
             break;
-        } else if (choise == 1) {
+        } else if (choise[0] == '1') {
             print_database(num_computers, database);
-        } else if (choise == 2) {
+        } else if (choise[0] == '2') {
             num_computers = new_computer(num_computers, database);
-        } else if (choise == 3) {
+        } else if (choise[0] == '3') {
             printf("%s", "Какой пк удалить (0-отмена): ");
             int num_del;
             scanf("%i", &num_del);
             num_computers = del_computer(num_del-1, num_computers, database);
-        } else if (choise == 4) {
+        } else if (choise[0] == '4') {
             print_OS_version(num_computers, database);
             // check_update(num_computers, database);
         }
 
         // break;
+        }
     }
 
     // printf("\n");
